@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/task_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/task_list_screeen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,8 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
   Future<void> _toggleTheme() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _themeMode = _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+      _themeMode =
+          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     });
     await prefs.setBool('isDarkMode', _themeMode == ThemeMode.dark);
   }
@@ -45,35 +46,43 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Task Manager',
+      debugShowCheckedModeBanner: false,
       themeMode: _themeMode,
+
+      // ✅ LIGHT THEME (Material 3)
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
           brightness: Brightness.light,
         ),
         useMaterial3: true,
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
       ),
+
+      
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
       ),
-      home: TaskListScreen(onToggleTheme: _toggleTheme, themeMode: _themeMode),
-      debugShowCheckedModeBanner: false,
+
+      home: TaskListScreen(
+        onToggleTheme: _toggleTheme,
+        themeMode: _themeMode,
+      ),
     );
   }
 }
